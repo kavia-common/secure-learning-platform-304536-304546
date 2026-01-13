@@ -7,7 +7,17 @@ import apiClient from './client';
  */
 export const getMyProgress = async () => {
   const response = await apiClient.get('/api/progress/me');
-  return response.data;
+  const data = response.data;
+  // Handle both direct array and wrapped responses
+  if (Array.isArray(data)) {
+    return data;
+  } else if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else if (data && Array.isArray(data.progress)) {
+    return data.progress;
+  }
+  console.warn('Unexpected progress API response format:', data);
+  return [];
 };
 
 // PUBLIC_INTERFACE
@@ -17,7 +27,12 @@ export const getMyProgress = async () => {
  */
 export const getProgressSummary = async () => {
   const response = await apiClient.get('/api/progress/summary');
-  return response.data;
+  const data = response.data;
+  // Handle wrapped responses
+  if (data && data.data) {
+    return data.data;
+  }
+  return data;
 };
 
 // PUBLIC_INTERFACE
@@ -30,7 +45,17 @@ export const getLeaderboard = async (limit = 10) => {
   const response = await apiClient.get('/api/progress/leaderboard', {
     params: { limit },
   });
-  return response.data;
+  const data = response.data;
+  // Handle both direct array and wrapped responses
+  if (Array.isArray(data)) {
+    return data;
+  } else if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else if (data && Array.isArray(data.leaderboard)) {
+    return data.leaderboard;
+  }
+  console.warn('Unexpected leaderboard API response format:', data);
+  return [];
 };
 
 // PUBLIC_INTERFACE

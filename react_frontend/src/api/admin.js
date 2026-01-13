@@ -7,7 +7,17 @@ import apiClient from './client';
  */
 export const getUsers = async () => {
   const response = await apiClient.get('/api/admin/users');
-  return response.data;
+  const data = response.data;
+  // Handle both direct array and wrapped responses
+  if (Array.isArray(data)) {
+    return data;
+  } else if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else if (data && Array.isArray(data.users)) {
+    return data.users;
+  }
+  console.warn('Unexpected users API response format:', data);
+  return [];
 };
 
 // PUBLIC_INTERFACE

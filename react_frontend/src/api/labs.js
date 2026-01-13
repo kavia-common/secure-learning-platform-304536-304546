@@ -7,7 +7,18 @@ import apiClient from './client';
  */
 export const getLabs = async () => {
   const response = await apiClient.get('/api/labs');
-  return response.data;
+  // Handle both direct array and wrapped { data: [] } responses
+  const data = response.data;
+  if (Array.isArray(data)) {
+    return data;
+  } else if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else if (data && data.labs && Array.isArray(data.labs)) {
+    return data.labs;
+  }
+  // Fallback to empty array to prevent runtime errors
+  console.warn('Unexpected labs API response format:', data);
+  return [];
 };
 
 // PUBLIC_INTERFACE
@@ -18,7 +29,12 @@ export const getLabs = async () => {
  */
 export const getLabById = async (labId) => {
   const response = await apiClient.get(`/api/labs/${labId}`);
-  return response.data;
+  const data = response.data;
+  // Handle wrapped responses
+  if (data && data.data) {
+    return data.data;
+  }
+  return data;
 };
 
 // PUBLIC_INTERFACE
@@ -29,7 +45,17 @@ export const getLabById = async (labId) => {
  */
 export const getLabHints = async (labId) => {
   const response = await apiClient.get(`/api/labs/${labId}/hints`);
-  return response.data;
+  const data = response.data;
+  // Handle both direct array and wrapped responses
+  if (Array.isArray(data)) {
+    return data;
+  } else if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else if (data && Array.isArray(data.hints)) {
+    return data.hints;
+  }
+  console.warn('Unexpected hints API response format:', data);
+  return [];
 };
 
 // PUBLIC_INTERFACE

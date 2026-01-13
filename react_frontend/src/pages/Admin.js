@@ -24,8 +24,10 @@ const Admin = () => {
   const fetchData = async () => {
     try {
       const [usersData, labsData] = await Promise.all([getUsers(), getLabs()]);
-      setUsers(usersData);
-      setLabs(labsData);
+      
+      // Defensive: ensure both are arrays
+      setUsers(Array.isArray(usersData) ? usersData : []);
+      setLabs(Array.isArray(labsData) ? labsData : []);
     } catch (err) {
       setError('Failed to load admin data');
       console.error(err);

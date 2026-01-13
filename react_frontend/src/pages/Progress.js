@@ -22,9 +22,11 @@ const Progress = () => {
           getProgressSummary(),
           getLeaderboard(10),
         ]);
-        setProgress(progressData);
+        
+        // Defensive: ensure arrays are actually arrays
+        setProgress(Array.isArray(progressData) ? progressData : []);
         setSummary(summaryData);
-        setLeaderboard(leaderboardData);
+        setLeaderboard(Array.isArray(leaderboardData) ? leaderboardData : []);
       } catch (err) {
         setError('Failed to load progress data');
         console.error(err);

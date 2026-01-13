@@ -25,8 +25,10 @@ const Labs = () => {
           getLabs(),
           getMyProgress(),
         ]);
-        setLabs(labsData);
-        setProgress(progressData);
+        
+        // Defensive: ensure both are arrays before setting state
+        setLabs(Array.isArray(labsData) ? labsData : []);
+        setProgress(Array.isArray(progressData) ? progressData : []);
       } catch (err) {
         setError('Failed to load labs');
         console.error(err);
@@ -39,11 +41,16 @@ const Labs = () => {
   }, []);
 
   const getLabStatus = (labId) => {
+    // Defensive: ensure progress is array before calling find
+    if (!Array.isArray(progress)) {
+      return 'not_started';
+    }
     const labProgress = progress.find((p) => p.labId === labId);
     return labProgress?.status || 'not_started';
   };
 
-  const filteredLabs = labs.filter((lab) => {
+  // Defensive: ensure labs is array before calling filter
+  const filteredLabs = Array.isArray(labs) ? labs.filter((lab) => {
     const matchesSearch =
       lab.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lab.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -55,9 +62,10 @@ const Labs = () => {
       statusFilter === 'all' || getLabStatus(lab._id) === statusFilter;
 
     return matchesSearch && matchesCategory && matchesDifficulty && matchesStatus;
-  });
+  }) : [];
 
-  const categories = ['all', ...new Set(labs.map((lab) => lab.category))];
+  // Defensive: ensure labs is array before mapping
+  const categories = ['all', ...new Set(Array.isArray(labs) ? labs.map((lab) => lab.category) : [])];
   const difficulties = ['all', 'beginner', 'intermediate', 'advanced'];
   const statuses = [
     { value: 'all', label: 'All Status' },

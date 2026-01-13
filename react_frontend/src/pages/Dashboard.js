@@ -23,7 +23,10 @@ const Dashboard = () => {
           getLabs(),
           getProgressSummary(),
         ]);
-        setLabs(labsData.slice(0, 6)); // Show first 6 labs
+        
+        // Defensive: ensure labsData is an array before slicing
+        const labsArray = Array.isArray(labsData) ? labsData : [];
+        setLabs(labsArray.slice(0, 6)); // Show first 6 labs
         setSummary(summaryData);
       } catch (err) {
         setError('Failed to load dashboard data');
