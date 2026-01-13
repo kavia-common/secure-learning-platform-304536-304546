@@ -11,6 +11,19 @@ import Labs from './pages/Labs';
 import LabDetail from './pages/LabDetail';
 import Progress from './pages/Progress';
 import Admin from './pages/Admin';
+import CTFFlags from './pages/CTFFlags';
+
+// Vulnerability Lab Pages
+import StoredXSSLab from './pages/labs/StoredXSSLab';
+import ReflectedXSSLab from './pages/labs/ReflectedXSSLab';
+import DOMXSSLab from './pages/labs/DOMXSSLab';
+import NoSQLInjectionLab from './pages/labs/NoSQLInjectionLab';
+import BrokenAuthLab from './pages/labs/BrokenAuthLab';
+import IDORLab from './pages/labs/IDORLab';
+import CSRFLab from './pages/labs/CSRFLab';
+import FileUploadLab from './pages/labs/FileUploadLab';
+import CommandInjectionLab from './pages/labs/CommandInjectionLab';
+
 import './App.css';
 
 // PUBLIC_INTERFACE
@@ -106,10 +119,90 @@ function App() {
                     }
                   />
                   <Route
+                    path="/lab/stored-xss"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <StoredXSSLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/reflected-xss"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <ReflectedXSSLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/dom-xss"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <DOMXSSLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/nosql-injection"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <NoSQLInjectionLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/broken-auth"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <BrokenAuthLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/idor"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <IDORLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/csrf"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <CSRFLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/file-upload"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <FileUploadLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lab/command-injection"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <CommandInjectionLab />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
                     path="/progress"
                     element={
                       <ProtectedRoute user={user}>
                         <Progress />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ctf"
+                    element={
+                      <ProtectedRoute user={user}>
+                        <CTFFlags />
                       </ProtectedRoute>
                     }
                   />

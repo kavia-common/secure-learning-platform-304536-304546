@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getLabs } from '../api/labs';
 import { getMyProgress } from '../api/progress';
 import LabCard from '../components/LabCard';
@@ -9,6 +10,7 @@ import '../styles/Labs.css';
  * Labs listing page with search and filtering
  */
 const Labs = () => {
+  const navigate = useNavigate();
   const [labs, setLabs] = useState([]);
   const [progress, setProgress] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,19 @@ const Labs = () => {
   const [difficultyFilter, setDifficultyFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  // Map lab slugs to interactive routes
+  const labRouteMap = {
+    'level-1-stored-xss': '/lab/stored-xss',
+    'level-2-reflected-xss': '/lab/reflected-xss',
+    'level-3-dom-xss': '/lab/dom-xss',
+    'level-4-nosql-injection': '/lab/nosql-injection',
+    'level-5-broken-auth': '/lab/broken-auth',
+    'level-6-idor': '/lab/idor',
+    'level-7-csrf': '/lab/csrf',
+    'level-8-file-upload': '/lab/file-upload',
+    'level-9-command-injection': '/lab/command-injection',
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,8 +41,11 @@ const Labs = () => {
           getMyProgress(),
         ]);
         
+        // Sort by level if available
+        const sortedLabs = Array.isArray(labsData) ? labsData.sort((a, b) => (a.level || 999) - (b.level || 999)) : [];
+        
         // Defensive: ensure both are arrays before setting state
-        setLabs(Array.isArray(labsData) ? labsData : []);
+        setLabs(sortedLabs);
         setProgress(Array.isArray(progressData) ? progressData : []);
       } catch (err) {
         setError('Failed to load labs');
@@ -66,7 +84,7 @@ const Labs = () => {
 
   // Defensive: ensure labs is array before mapping
   const categories = ['all', ...new Set(Array.isArray(labs) ? labs.map((lab) => lab.category) : [])];
-  const difficulties = ['all', 'beginner', 'intermediate', 'advanced'];
+  const difficulties = ['all', 'easy', 'medium', 'hard'];
   const statuses = [
     { value: 'all', label: 'All Status' },
     { value: 'not_started', label: 'Not Started' },
@@ -84,7 +102,20 @@ const Labs = () => {
 
   return (
     <div className="labs-page">
-      <h1>Security Labs</h1>
+      <div className="labs-header">
+        <h1>🎯 Security Labs - Level Progression</h1>
+        <p>Complete labs in order to unlock higher levels. Practice web security vulnerabilities in a safe environment.</p>
+        <div style={{
+          background: '#fef3c7',
+          padding: '15px',
+          borderRadius: '8px',
+          marginTop: '15px',
+          border: '1px solid #f59e0b'
+        }}>
+          <strong>🏆 CTF Side Quest:</strong> 20 hidden flags scattered throughout the application.
+          Find them via source code, network inspection, and creative hacking!
+        </div>
+      </div>
 
       <div className="labs-filters">
         <input
@@ -138,7 +169,29 @@ const Labs = () => {
 
       <div className="labs-grid">
         {filteredLabs.map((lab) => (
-          <LabCard key={lab._id} lab={lab} status={getLabStatus(lab._id)} />
+          <div key={lab._id} style={{ position: 'relative' }}>
+            <LabCard lab={lab} status={getLabStatus(lab._id)} />
+            {labRouteMap[lab.slug] && (
+              <button
+                onClick={() => navigate(labRouteMap[lab.slug])}
+                className="launch-lab-btn"
+                style={{
+                  marginTop: '10px',
+                  width: '100%',
+                  padding: '10px',
+                  fontSize: '14px',
+                  background: '#3b82f6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                🚀 Launch Lab
+              </button>
+            )}
+          </div>
         ))}
       </div>
 

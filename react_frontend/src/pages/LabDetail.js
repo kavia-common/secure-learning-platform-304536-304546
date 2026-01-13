@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getLabById, getLabHints, submitLabSolution } from '../api/labs';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -12,6 +12,7 @@ import '../styles/LabDetail.css';
  */
 const LabDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [lab, setLab] = useState(null);
   const [hints, setHints] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
@@ -21,6 +22,19 @@ const LabDetail = () => {
   const [hintsUsed, setHintsUsed] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Map lab slugs to interactive lab routes
+  const labRouteMap = {
+    'level-1-stored-xss': '/lab/stored-xss',
+    'level-2-reflected-xss': '/lab/reflected-xss',
+    'level-3-dom-xss': '/lab/dom-xss',
+    'level-4-nosql-injection': '/lab/nosql-injection',
+    'level-5-broken-auth': '/lab/broken-auth',
+    'level-6-idor': '/lab/idor',
+    'level-7-csrf': '/lab/csrf',
+    'level-8-file-upload': '/lab/file-upload',
+    'level-9-command-injection': '/lab/command-injection',
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +95,11 @@ const LabDetail = () => {
 
   const difficultyColors = {
     beginner: '#06b6d4',
+    easy: '#06b6d4',
     intermediate: '#f59e0b',
+    medium: '#f59e0b',
     advanced: '#ef4444',
+    hard: '#ef4444',
   };
 
   return (
@@ -99,6 +116,15 @@ const LabDetail = () => {
               {lab.difficulty}
             </span>
           </div>
+          
+          {labRouteMap[lab.slug] && (
+            <Button
+              onClick={() => navigate(labRouteMap[lab.slug])}
+              style={{marginTop: '15px'}}
+            >
+              🚀 Launch Interactive Lab
+            </Button>
+          )}
         </div>
       </Card>
 
@@ -140,6 +166,13 @@ const LabDetail = () => {
                 <h3>Learning Goals</h3>
                 <p>{lab.objective}</p>
               </>
+            )}
+
+            {lab.owaspCategory && (
+              <div className="owasp-section">
+                <h3>OWASP Mapping</h3>
+                <p><strong>{lab.owaspCategory}</strong></p>
+              </div>
             )}
 
             {lab.tags && lab.tags.length > 0 && (

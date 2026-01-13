@@ -27,6 +27,10 @@ const Sidebar = ({ isAdmin = false }) => {
           <span className="nav-icon">📈</span>
           Progress
         </NavLink>
+        <NavLink to="/ctf" className={({ isActive }) => (isActive ? 'active' : '')}>
+          <span className="nav-icon">🏴‍☠️</span>
+          CTF Side Quest
+        </NavLink>
         {isAdmin && (
           <NavLink to="/admin" className={({ isActive }) => (isActive ? 'active' : '')}>
             <span className="nav-icon">⚙️</span>
