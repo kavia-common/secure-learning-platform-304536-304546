@@ -1,0 +1,124 @@
+.progress-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.progress-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.progress-overview {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.stats-card h2,
+.leaderboard-card h2,
+.progress-details h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+}
+
+.rank {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  min-width: 3rem;
+}
+
+.user-name {
+  flex: 1;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.completed-count {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.progress-table {
+  overflow-x: auto;
+}
+
+.progress-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.progress-table th,
+.progress-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.progress-table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.progress-table td {
+  color: var(--text-primary);
+}
+
+.no-data {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .progress-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

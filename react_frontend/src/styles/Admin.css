@@ -1,0 +1,68 @@
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.admin-table {
+  overflow-x: auto;
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: var(--bg-tertiary);
+}
+
+.admin-table td {
+  color: var(--text-primary);
+}
+
+.roles-list {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-style: italic;
+}
